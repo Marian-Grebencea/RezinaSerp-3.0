@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <title>Мои записи</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="page">
+    <header class="main-header">
+        <div class="header-inner">
+            <div class="header-title">
+                <a class="header-logo" href="index.html">ШИНОМОНТАЖ</a>
+                <div class="header-subtitle">БАЛАНС КОЛЁС</div>
+            </div>
+            <nav class="header-nav">
+                <a href="index.html">Главная</a>
+                <a href="cabinet.html">Профиль</a>
+                <a href="orders.html">Мои заказы</a>
+            </nav>
+            <div class="header-action">
+                <a class="header-call-btn" href="login.html">Выйти</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="page-content">
+        <section class="container">
+            <div class="cabinet-layout">
+                <aside class="cabinet-menu">
+                    <h4>Навигация</h4>
+                    <a href="cabinet.html">Профиль</a>
+                    <a href="orders.html">Мои заказы</a>
+                    <a class="active" href="booking.html">Мои записи</a>
+                    <a href="login.html">Выход</a>
+                </aside>
+
+                <div class="cabinet-content">
+                    <div class="card profile-card">
+                        <h1>Мои записи</h1>
+                        <p>Планируйте визит и управляйте записями на шиномонтаж.</p>
+                        <div class="booking-list">
+                            <div class="booking-card">
+                                <div class="booking-details">
+                                    <strong>15.03.2024, 11:30</strong>
+                                    <span class="booking-meta">Шиномонтаж + балансировка, 4 колеса</span>
+                                </div>
+                                <span class="status-badge status-warning">Ожидает подтверждения</span>
+                                <button class="btn btn-ghost" type="button">Отменить</button>
+                            </div>
+                            <div class="booking-card">
+                                <div class="booking-details">
+                                    <strong>10.03.2024, 18:00</strong>
+                                    <span class="booking-meta">Правка диска R17</span>
+                                </div>
+                                <span class="status-badge status-success">Подтверждена</span>
+                                <button class="btn btn-ghost" type="button">Отменить</button>
+                            </div>
+                            <div class="booking-card">
+                                <div class="booking-details">
+                                    <strong>02.03.2024, 09:00</strong>
+                                    <span class="booking-meta">Сезонное хранение шин</span>
+                                </div>
+                                <span class="status-badge status-danger">Отменена</span>
+                                <button class="btn btn-ghost" type="button">Повторить запись</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

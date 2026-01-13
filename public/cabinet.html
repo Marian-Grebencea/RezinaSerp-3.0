@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <title>Личный кабинет</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="page">
+    <header class="main-header">
+        <div class="header-inner">
+            <div class="header-title">
+                <a class="header-logo" href="index.html">ШИНОМОНТАЖ</a>
+                <div class="header-subtitle">БАЛАНС КОЛЁС</div>
+            </div>
+            <nav class="header-nav">
+                <a href="index.html">Главная</a>
+                <a href="orders.html">Мои заказы</a>
+                <a href="booking.html">Мои записи</a>
+            </nav>
+            <div class="header-action">
+                <button class="header-call-btn js-logout" type="button">Выйти</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="page-content">
+        <section class="container">
+            <div class="cabinet-layout">
+                <aside class="cabinet-menu">
+                    <h4>Навигация</h4>
+                    <a class="active" href="cabinet.html">Профиль</a>
+                    <a href="orders.html">Мои заказы</a>
+                    <a href="booking.html">Мои записи</a>
+                    <button class="js-logout" type="button">Выход</button>
+                </aside>
+
+                <div class="cabinet-content">
+                    <div class="card profile-card">
+                        <h1>Профиль клиента</h1>
+                        <p>Актуальные данные для связи и быстрого обслуживания.</p>
+                        <div class="profile-grid">
+                            <div class="profile-field">
+                                <span>ФИО</span>
+                                <strong>Иванов Иван Иванович</strong>
+                            </div>
+                            <div class="profile-field">
+                                <span>Телефон</span>
+                                <strong>+7 (999) 903-41-34</strong>
+                            </div>
+                            <div class="profile-field">
+                                <span>Email</span>
+                                <strong>ivanov@mail.ru</strong>
+                            </div>
+                        </div>
+                        <div class="spacer"></div>
+                        <button class="btn btn-primary" type="button">Редактировать</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="assets/js/auth-guard.js"></script>
+</body>
+</html>
