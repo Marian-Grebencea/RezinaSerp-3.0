@@ -7,33 +7,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/style.css">
 </head>
-<body class="page">
-    <header class="main-header">
-        <div class="header-inner">
-            <div class="header-title">
-                <a class="header-logo" href="index.html">ШИНОМОНТАЖ</a>
-                <div class="header-subtitle">БАЛАНС КОЛЁС</div>
-            </div>
-            <nav class="header-nav">
-                <a href="index.html">Главная</a>
-                <a href="cabinet.html">Профиль</a>
-                <a href="booking.html">Мои записи</a>
-            </nav>
-            <div class="header-action">
-                <a class="header-call-btn" href="login.html">Выйти</a>
-            </div>
-        </div>
-    </header>
-
+<body class="page page-cabinet">
     <main class="page-content">
         <section class="container">
+            <div class="cabinet-topbar">
+                <div class="cabinet-brand">
+                    <span class="brand-title">RezinaSerp</span>
+                    <span class="brand-subtitle">Шины и диски</span>
+                </div>
+            </div>
             <div class="cabinet-layout">
-                <aside class="cabinet-menu">
-                    <h4>Навигация</h4>
-                    <a href="cabinet.html">Профиль</a>
-                    <a class="active" href="orders.html">Мои заказы</a>
-                    <a href="booking.html">Мои записи</a>
-                    <a href="login.html">Выход</a>
+                <aside class="cabinet-sidebar">
+                    <div class="cabinet-brand cabinet-brand--sidebar">
+                        <span class="brand-title">RezinaSerp</span>
+                        <span class="brand-subtitle">Шины и диски</span>
+                    </div>
+                    <nav class="cabinet-nav" aria-label="Личный кабинет">
+                        <a href="cabinet.html">Профиль</a>
+                        <a class="active" href="orders.html">Мои заказы</a>
+                        <a href="booking.html">Мои записи</a>
+                        <button class="cabinet-logout js-logout" type="button">Выход</button>
+                    </nav>
                 </aside>
 
                 <div class="cabinet-content">
@@ -83,5 +77,7 @@
             </div>
         </section>
     </main>
+
+    <script src="assets/js/auth-guard.js"></script>
 </body>
 </html>
