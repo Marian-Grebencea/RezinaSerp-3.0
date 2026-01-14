@@ -939,10 +939,65 @@ select:focus {
    CABINET LAYOUT
 ===================================================== */
 
+.cabinet-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 22px 26px;
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    margin-bottom: 26px;
+}
+
+.cabinet-brand {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+}
+
+.cabinet-logout {
+    padding: 8px 16px;
+    font-size: 15px;
+    border-radius: var(--radius-sm);
+}
+
 .cabinet-layout {
     display: grid;
     grid-template-columns: 260px 1fr;
     gap: 32px;
+}
+
+.cabinet-nav {
+    padding: 24px;
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    position: sticky;
+    top: 24px;
+    height: fit-content;
+}
+
+.cabinet-nav a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 14px;
+    border-radius: var(--radius-sm);
+    color: var(--color-text);
+    text-decoration: none;
+    border: 1px solid transparent;
+    transition: 0.2s ease;
+}
+
+.cabinet-nav a:hover,
+.cabinet-nav a.active {
+    border-color: var(--color-border);
+    background: var(--color-surface-strong);
 }
 
 .cabinet-menu {
@@ -1138,12 +1193,30 @@ select:focus {
         grid-template-columns: 1fr;
     }
 
+    .cabinet-nav,
     .cabinet-menu {
         position: static;
+    }
+
+    .cabinet-nav {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 12px;
+        justify-content: flex-start;
+    }
+
+    .cabinet-nav a {
+        flex: 1 1 auto;
+        justify-content: center;
     }
 }
 
 @media (max-width: 640px) {
+    .cabinet-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
     .auth-card {
         padding: 28px 22px;
     }
