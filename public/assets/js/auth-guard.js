@@ -40,7 +40,11 @@ function handleLogoutButtons() {
 }
 
 function guardCabinet() {
-  if (window.location.pathname.endsWith('cabinet.html') && !isAuthed()) {
+  const guardedPages = ['cabinet.html', 'orders.html', 'booking.html'];
+  const isCabinetPage = guardedPages.some((page) =>
+    window.location.pathname.endsWith(page)
+  );
+  if (isCabinetPage && !isAuthed()) {
     window.location.href = 'login.html';
   }
 }
