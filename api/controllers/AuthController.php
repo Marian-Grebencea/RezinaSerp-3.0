@@ -7,6 +7,11 @@ class AuthController
 {
     public static function register(PDO $pdo, array $config, array $input): void
     {
+        if (!empty($config['DEBUG'])) {
+            ini_set('display_errors', '1');
+            error_reporting(E_ALL);
+        }
+
         $email = isset($input['email']) ? trim((string) $input['email']) : '';
         $phone = isset($input['phone']) ? trim((string) $input['phone']) : '';
         $password = (string) ($input['password'] ?? '');
@@ -36,23 +41,46 @@ class AuthController
             errorResponse('validation_error', 'Password must be at least 8 characters.');
         }
 
-        $stmt = $pdo->prepare('SELECT id FROM users WHERE email = :email OR phone = :phone');
-        $stmt->execute([
-            'email' => $email !== '' ? $email : null,
-            'phone' => $phone !== '' ? $phone : null,
-        ]);
-        if ($stmt->fetch()) {
-            errorResponse('conflict', 'User already exists.', 409);
-        }
+        try {
+            $stmt = $pdo->prepare('SELECT email, phone FROM users WHERE email = :email OR phone = :phone');
+            $stmt->execute([
+                'email' => $email,
+                'phone' => $phone,
+            ]);
+            $existing = $stmt->fetch();
+            if ($existing) {
+                if (!empty($existing['email']) && $existing['email'] === $email) {
+                    errorResponse('conflict', 'Email already exists.', 409);
+                }
+                if (!empty($existing['phone']) && $existing['phone'] === $phone) {
+                    errorResponse('conflict', 'Phone already exists.', 409);
+                }
+                errorResponse('conflict', 'User already exists.', 409);
+            }
 
-        $hash = password_hash($password, PASSWORD_DEFAULT);
-        $stmt = $pdo->prepare('INSERT INTO users (email, phone, password_hash, full_name, created_at) VALUES (:email, :phone, :hash, :full_name, NOW())');
-        $stmt->execute([
-            'email' => $email !== '' ? $email : null,
-            'phone' => $phone !== '' ? $phone : null,
-            'hash' => $hash,
-            'full_name' => $fullName !== '' ? $fullName : null,
-        ]);
+            $hash = password_hash($password, PASSWORD_DEFAULT);
+            $stmt = $pdo->prepare('INSERT INTO users (email, phone, password_hash, full_name, created_at) VALUES (:email, :phone, :hash, :full_name, NOW())');
+            $stmt->execute([
+                'email' => $email,
+                'phone' => $phone,
+                'hash' => $hash,
+                'full_name' => $fullName,
+            ]);
+        } catch (PDOException $exception) {
+            $errorInfo = $exception->errorInfo ?? [];
+            if (($errorInfo[0] ?? '') === '23000' && (int) ($errorInfo[1] ?? 0) === 1062) {
+                $message = (string) ($errorInfo[2] ?? $exception->getMessage());
+                if (stripos($message, 'email') !== false) {
+                    errorResponse('conflict', 'Email already exists.', 409);
+                }
+                if (stripos($message, 'phone') !== false) {
+                    errorResponse('conflict', 'Phone already exists.', 409);
+                }
+                errorResponse('conflict', 'User already exists.', 409);
+            }
+
+            errorResponse('db_error', 'Database error while creating user.', 500);
+        }
 
         $userId = (int) $pdo->lastInsertId();
         okResponse(['id' => $userId], 201);
