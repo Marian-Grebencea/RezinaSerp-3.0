@@ -6,6 +6,7 @@ return [
     'DB_USER' => 'root',
     'DB_PASS' => '',
     'DB_CHARSET' => 'utf8mb4',
+    'DEBUG' => false,
     'AUTH_MODE' => 'session',
     'JWT_SECRET' => 'change_me',
     'JWT_TTL' => 3600,
