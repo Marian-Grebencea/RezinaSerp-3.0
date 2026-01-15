@@ -44,7 +44,7 @@ class ProfileController
             'id' => $user['id'],
         ]);
 
-        $stmt = $pdo->prepare('SELECT id, email, phone, full_name, role, created_at FROM users WHERE id = :id');
+        $stmt = $pdo->prepare('SELECT id, email, phone, full_name, created_at, last_login FROM users WHERE id = :id');
         $stmt->execute(['id' => $user['id']]);
         $updated = $stmt->fetch();
 

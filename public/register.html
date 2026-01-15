@@ -28,7 +28,7 @@
         <section class="auth-wrapper">
             <div class="auth-card">
                 <h1 class="auth-title">Регистрация клиента</h1>
-                <form>
+                <form class="js-register-form" novalidate>
                     <div class="form-group">
                         <label for="register-name">ФИО</label>
                         <input id="register-name" type="text" name="name" placeholder="Иванов Иван Иванович" autocomplete="name">
@@ -45,11 +45,14 @@
                         <label for="register-password">Пароль</label>
                         <input id="register-password" type="password" name="password" placeholder="Придумайте пароль" autocomplete="new-password">
                     </div>
+                    <p class="form-error" data-form-error role="alert" aria-live="polite"></p>
                     <button class="btn btn-primary" type="submit">Создать аккаунт</button>
                     <p class="form-hint">Уже зарегистрированы? <a href="login.html">Войти</a></p>
                 </form>
             </div>
         </section>
     </main>
+
+    <script src="assets/js/auth-guard.js"></script>
 </body>
 </html>

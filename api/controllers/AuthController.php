@@ -12,15 +12,23 @@ class AuthController
         $password = (string) ($input['password'] ?? '');
         $fullName = isset($input['full_name']) ? trim((string) $input['full_name']) : '';
 
-        if ($email === '' && $phone === '') {
-            errorResponse('validation_error', 'Email or phone is required.');
+        if ($fullName === '') {
+            errorResponse('validation_error', 'Full name is required.');
         }
 
-        if ($email !== '' && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        if ($email === '') {
+            errorResponse('validation_error', 'Email is required.');
+        }
+
+        if ($phone === '') {
+            errorResponse('validation_error', 'Phone is required.');
+        }
+
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             errorResponse('validation_error', 'Invalid email format.');
         }
 
-        if ($phone !== '' && !preg_match('/^\+?[0-9\-\s]{7,20}$/', $phone)) {
+        if (!preg_match('/^\+?[0-9\-\s]{7,20}$/', $phone)) {
             errorResponse('validation_error', 'Invalid phone format.');
         }
 
@@ -38,13 +46,12 @@ class AuthController
         }
 
         $hash = password_hash($password, PASSWORD_DEFAULT);
-        $stmt = $pdo->prepare('INSERT INTO users (email, phone, password_hash, full_name, role, created_at) VALUES (:email, :phone, :hash, :full_name, :role, NOW())');
+        $stmt = $pdo->prepare('INSERT INTO users (email, phone, password_hash, full_name, created_at) VALUES (:email, :phone, :hash, :full_name, NOW())');
         $stmt->execute([
             'email' => $email !== '' ? $email : null,
             'phone' => $phone !== '' ? $phone : null,
             'hash' => $hash,
             'full_name' => $fullName !== '' ? $fullName : null,
-            'role' => 'client',
         ]);
 
         $userId = (int) $pdo->lastInsertId();
@@ -76,7 +83,7 @@ class AuthController
             errorResponse('too_many_attempts', 'Too many attempts. Try later.', 429);
         }
 
-        $stmt = $pdo->prepare('SELECT id, email, phone, password_hash, full_name, role, created_at FROM users WHERE email = :identifier OR phone = :identifier');
+        $stmt = $pdo->prepare('SELECT id, email, phone, password_hash, full_name, created_at, last_login FROM users WHERE email = :identifier OR phone = :identifier');
         $stmt->execute(['identifier' => $identifier]);
         $user = $stmt->fetch();
 
@@ -98,6 +105,8 @@ class AuthController
         }
 
         $_SESSION['user_id'] = (int) $user['id'];
+        $updateStmt = $pdo->prepare('UPDATE users SET last_login = NOW() WHERE id = :id');
+        $updateStmt->execute(['id' => $user['id']]);
         okResponse(['id' => (int) $user['id']]);
     }
 
