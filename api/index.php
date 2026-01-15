@@ -16,7 +16,7 @@ handleCors($config);
 $sessionCookie = $config['SESSION_COOKIE'] ?? [];
 session_set_cookie_params([
     'lifetime' => 0,
-    'path' => '/',
+    'path' => $sessionCookie['path'] ?? '/',
     'domain' => '',
     'secure' => (bool) ($sessionCookie['secure'] ?? false),
     'httponly' => (bool) ($sessionCookie['httponly'] ?? true),

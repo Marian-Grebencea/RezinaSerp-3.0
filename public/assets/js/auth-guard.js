@@ -41,10 +41,16 @@ async function fetchProfile() {
     const { response, payload } = await requestJson('/profile/me.php', {
       method: 'GET',
     });
-    if (!response.ok || !payload.ok) {
+    if (!response.ok) {
       return null;
     }
-    return payload.data.user || null;
+    if (payload.ok) {
+      return payload.data.user || null;
+    }
+    if (payload.success) {
+      return payload.user || null;
+    }
+    return null;
   } catch (error) {
     return null;
   }

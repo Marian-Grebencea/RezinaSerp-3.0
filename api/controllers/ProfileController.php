@@ -7,8 +7,44 @@ class ProfileController
 {
     public static function me(PDO $pdo, array $config): void
     {
-        $user = requireAuth($pdo, $config);
-        okResponse(['user' => $user]);
+        if (($config['AUTH_MODE'] ?? 'session') === 'jwt') {
+            $user = requireAuth($pdo, $config);
+            jsonResponse([
+                'success' => true,
+                'user' => [
+                    'id' => $user['id'],
+                    'full_name' => $user['full_name'] ?? null,
+                    'phone' => $user['phone'] ?? null,
+                    'email' => $user['email'] ?? null,
+                ],
+            ]);
+        }
+
+        if (session_status() !== PHP_SESSION_ACTIVE) {
+            session_start();
+        }
+
+        if (empty($_SESSION['user_id'])) {
+            jsonResponse(['success' => false, 'message' => 'Unauthorized'], 401);
+        }
+
+        $stmt = $pdo->prepare('SELECT id, full_name, phone, email FROM users WHERE id = :id');
+        $stmt->execute(['id' => $_SESSION['user_id']]);
+        $user = $stmt->fetch();
+
+        if (!$user) {
+            jsonResponse(['success' => false, 'message' => 'Unauthorized'], 401);
+        }
+
+        jsonResponse([
+            'success' => true,
+            'user' => [
+                'id' => $user['id'],
+                'full_name' => $user['full_name'] ?? null,
+                'phone' => $user['phone'] ?? null,
+                'email' => $user['email'] ?? null,
+            ],
+        ]);
     }
 
     public static function update(PDO $pdo, array $config, array $input): void

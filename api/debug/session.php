@@ -3,7 +3,6 @@
 require_once __DIR__ . '/../config/env.php';
 require_once __DIR__ . '/../utils/response.php';
 require_once __DIR__ . '/../utils/cors.php';
-require_once __DIR__ . '/../controllers/AuthController.php';
 
 $config = require __DIR__ . '/../config/env.php';
 
@@ -18,13 +17,13 @@ session_set_cookie_params([
     'httponly' => (bool) ($sessionCookie['httponly'] ?? true),
     'samesite' => $sessionCookie['samesite'] ?? 'Lax',
 ]);
+
 if (session_status() !== PHP_SESSION_ACTIVE) {
     session_start();
 }
 
-$method = strtoupper($_SERVER['REQUEST_METHOD'] ?? 'GET');
-if ($method !== 'POST') {
-    errorResponse('method_not_allowed', 'Method not allowed.', 405);
-}
-
-AuthController::logout($config);
+jsonResponse([
+    'success' => true,
+    'session_id' => session_id(),
+    'user_id' => $_SESSION['user_id'] ?? null,
+]);
