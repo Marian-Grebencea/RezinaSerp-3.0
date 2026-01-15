@@ -935,6 +935,21 @@ select:focus {
     color: var(--color-muted);
 }
 
+.form-error {
+    margin: 0 0 16px;
+    padding: 10px 12px;
+    border-radius: var(--radius-sm);
+    background: rgba(224, 79, 95, 0.1);
+    border: 1px solid rgba(224, 79, 95, 0.3);
+    color: var(--color-danger);
+    font-size: 14px;
+    display: none;
+}
+
+.form-error.is-visible {
+    display: block;
+}
+
 /* =====================================================
    CABINET LAYOUT
 ===================================================== */

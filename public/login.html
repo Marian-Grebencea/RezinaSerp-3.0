@@ -28,7 +28,7 @@
         <section class="auth-wrapper">
             <div class="auth-card">
                 <h1 class="auth-title">Вход в личный кабинет</h1>
-                <form class="js-login-form">
+                <form class="js-login-form" novalidate>
                     <div class="form-group">
                         <label for="login-identity">Телефон или Email</label>
                         <input id="login-identity" type="text" name="identity" placeholder="+7 (___) ___-__-__ или email" autocomplete="username">
@@ -37,6 +37,7 @@
                         <label for="login-password">Пароль</label>
                         <input id="login-password" type="password" name="password" placeholder="Введите пароль" autocomplete="current-password">
                     </div>
+                    <p class="form-error" data-form-error role="alert" aria-live="polite"></p>
                     <button class="btn btn-primary" type="submit">Войти</button>
                     <p class="form-hint">Нет аккаунта? <a href="register.html">Создать профиль</a></p>
                 </form>
