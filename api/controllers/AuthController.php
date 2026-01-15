@@ -83,6 +83,17 @@ class AuthController
         }
 
         $userId = (int) $pdo->lastInsertId();
+
+        if (($config['AUTH_MODE'] ?? 'session') === 'session') {
+            if (session_status() !== PHP_SESSION_ACTIVE) {
+                session_start();
+            }
+            $_SESSION['user_id'] = $userId;
+            $_SESSION['email'] = $email;
+            $_SESSION['phone'] = $phone;
+            $_SESSION['full_name'] = $fullName;
+        }
+
         okResponse(['id' => $userId], 201);
     }
 
@@ -133,6 +144,9 @@ class AuthController
         }
 
         $_SESSION['user_id'] = (int) $user['id'];
+        $_SESSION['email'] = $user['email'] ?? null;
+        $_SESSION['phone'] = $user['phone'] ?? null;
+        $_SESSION['full_name'] = $user['full_name'] ?? null;
         $updateStmt = $pdo->prepare('UPDATE users SET last_login = NOW() WHERE id = :id');
         $updateStmt->execute(['id' => $user['id']]);
         okResponse(['id' => (int) $user['id']]);
@@ -144,6 +158,7 @@ class AuthController
             if (session_status() !== PHP_SESSION_ACTIVE) {
                 session_start();
             }
+            session_unset();
             $_SESSION = [];
             if (ini_get('session.use_cookies')) {
                 $params = session_get_cookie_params();
