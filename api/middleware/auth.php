@@ -2,6 +2,7 @@
 
 require_once __DIR__ . '/../utils/response.php';
 require_once __DIR__ . '/../utils/jwt.php';
+require_once __DIR__ . '/../config/session.php';
 
 function requireAuth(PDO $pdo, array $config): array
 {
@@ -23,9 +24,7 @@ function requireAuth(PDO $pdo, array $config): array
         return $user;
     }
 
-    if (session_status() !== PHP_SESSION_ACTIVE) {
-        session_start();
-    }
+    startSession($config);
 
     if (empty($_SESSION['user_id'])) {
         errorResponse('unauthorized', 'Authorization required.', 401);
