@@ -1,4 +1,4 @@
-const API_BASE = '/api';
+const API_BASE = window.API_BASE || '/api';
 const GUARDED_PAGES = ['cabinet.html', 'orders.html', 'booking.html'];
 
 async function requestJson(path, options = {}) {
@@ -38,7 +38,7 @@ function showFormError(form, message) {
 
 async function fetchProfile() {
   try {
-    const { response, payload } = await requestJson('/profile/me', {
+    const { response, payload } = await requestJson('/profile/me.php', {
       method: 'GET',
     });
     if (!response.ok || !payload.ok) {
@@ -91,7 +91,7 @@ function handleLoginForm() {
     };
 
     try {
-      const { response, payload: result } = await requestJson('/auth/login', {
+      const { response, payload: result } = await requestJson('/auth/login.php', {
         method: 'POST',
         body: JSON.stringify(payload),
       });
@@ -129,7 +129,7 @@ function handleRegisterForm() {
     }
 
     try {
-      const { response, payload } = await requestJson('/auth/register', {
+      const { response, payload } = await requestJson('/auth/register.php', {
         method: 'POST',
         body: JSON.stringify({
           full_name: fullName,
@@ -155,7 +155,7 @@ function handleLogoutButtons() {
   document.querySelectorAll('.js-logout').forEach((button) => {
     button.addEventListener('click', async () => {
       try {
-        await requestJson('/auth/logout', { method: 'POST' });
+        await requestJson('/auth/logout.php', { method: 'POST' });
       } catch (error) {
         // ignore
       } finally {
