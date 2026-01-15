@@ -14,7 +14,7 @@ return [
         'secure' => false,
         'httponly' => true,
         'samesite' => 'Lax',
-        'path' => '/RezinaSerp_3.0/',
+        'path' => '/RezinaSerp-3.0/',
     ],
     'CORS_ENABLED' => false,
     'CORS_ORIGINS' => [

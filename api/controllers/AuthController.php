@@ -2,6 +2,7 @@
 
 require_once __DIR__ . '/../utils/response.php';
 require_once __DIR__ . '/../utils/jwt.php';
+require_once __DIR__ . '/../config/session.php';
 
 class AuthController
 {
@@ -85,9 +86,7 @@ class AuthController
         $userId = (int) $pdo->lastInsertId();
 
         if (($config['AUTH_MODE'] ?? 'session') === 'session') {
-            if (session_status() !== PHP_SESSION_ACTIVE) {
-                session_start();
-            }
+            startSession($config);
             $_SESSION['user_id'] = $userId;
             $_SESSION['email'] = $email;
             $_SESSION['phone'] = $phone;
@@ -99,9 +98,7 @@ class AuthController
 
     public static function login(PDO $pdo, array $config, array $input): void
     {
-        if (session_status() !== PHP_SESSION_ACTIVE) {
-            session_start();
-        }
+        startSession($config);
 
         $identifier = isset($input['email']) ? trim((string) $input['email']) : '';
         if ($identifier === '') {
@@ -155,9 +152,7 @@ class AuthController
     public static function logout(array $config): void
     {
         if (($config['AUTH_MODE'] ?? 'session') === 'session') {
-            if (session_status() !== PHP_SESSION_ACTIVE) {
-                session_start();
-            }
+            startSession($config);
             session_unset();
             $_SESSION = [];
             if (ini_get('session.use_cookies')) {

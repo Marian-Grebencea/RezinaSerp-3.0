@@ -2,6 +2,7 @@
 
 require_once __DIR__ . '/../middleware/auth.php';
 require_once __DIR__ . '/../utils/response.php';
+require_once __DIR__ . '/../config/session.php';
 
 class ProfileController
 {
@@ -20,9 +21,7 @@ class ProfileController
             ]);
         }
 
-        if (session_status() !== PHP_SESSION_ACTIVE) {
-            session_start();
-        }
+        startSession($config);
 
         if (empty($_SESSION['user_id'])) {
             jsonResponse(['success' => false, 'message' => 'Unauthorized'], 401);
