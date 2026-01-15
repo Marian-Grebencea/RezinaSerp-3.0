@@ -1,14 +1,17 @@
-const API_BASE = window.API_BASE || '/api';
+const API_BASE =
+  window.API_BASE ||
+  new URL('../api/', window.location.href).pathname.replace(/\/$/, '');
 const GUARDED_PAGES = ['cabinet.html', 'orders.html', 'booking.html'];
 
 async function requestJson(path, options = {}) {
+  const { headers: optionHeaders = {}, ...rest } = options;
   const response = await fetch(`${API_BASE}${path}`, {
+    ...rest,
     credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
-      ...(options.headers || {}),
+      ...optionHeaders,
     },
-    ...options,
   });
   const text = await response.text();
   let payload = {};
